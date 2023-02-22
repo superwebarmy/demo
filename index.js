@@ -10,7 +10,7 @@ const axios = require('axios');
 app.use(bodyParser.json());
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -46,11 +46,11 @@ app.get('/bolobhai', (req,res)=>{
 
 app.post('/bolobhai', async (req,res)=>{
   
-
+  try{
     const user_id = req.body.entry[0].id;
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  'EAAKf7JXO2hwBANZC3xfZA6s9gABoOniSrTRM4R2qHtZBIL3OV7pQocc3koZCEGNKL3q2SQ81xKLDzRCWixe32YTdoOjbamfLPajbRZBWGD5MWdZAoMexrjbiumZAwRmcWsAd02xTF1bIVra5SmxHl94YOhpOQBdg8yYH3hkVuep7oC5UM9hZBRuVICcZAZBBGPHWZAldT8yFhZAqKkxEhT6w7P9v';
+    const accessToken =  'EAAKf7JXO2hwBAP9mXhOX2MB31svCaa0JeyO4SGthagN7ZAmxtLGcSnzei911AU0VeKjgYg1SNSus24SZCMhnq6J3SV1wtdGyzV61VB8lJh2RaxZBztGfR1qMSUiyPPDm0DPPrttGi9DiMZAYNZBKNoZCCaI0qL8uEMVB5ug4FYZBTfjVvHJd5OZAaQ0cxqq7FCiuCFlOpixKOPoeM2bIQb3O';
   
   
     const api_url = `https://graph.facebook.com/${user_id}?fields=mentioned_comment.comment_id(${user_comment_id}){media{id,media_url}}&access_token=${accessToken}`;
@@ -85,7 +85,11 @@ app.post('/bolobhai', async (req,res)=>{
       access_token: accessToken
     });
 
-    res.sendStatus(200);
+  } catch(e){
+    throw e;
+  }
+
+  res.sendStatus(200);
 
   
 });
