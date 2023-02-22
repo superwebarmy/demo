@@ -10,7 +10,7 @@ const axios = require('axios');
 app.use(bodyParser.json());
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -47,10 +47,11 @@ app.get('/bolobhai', (req,res)=>{
 app.post('/bolobhai', async (req,res)=>{
   
   try{
+    
     const user_id = req.body.entry[0].id;
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  'EAAKf7JXO2hwBAJXjeFXQsccyDB6euUBzYM5ZBGBk85ZAd8VvExJ6gIZAEZB8N24PE4ttG27qZAIC0kcH4QlubJhtoygk3ExEmVuQA5ijxHaCOpj7otlCVRFZAy5FSo09W9hZAe5MzTkoguRlN6TmBhyMWsKwJOoTLZBVZC9aZCoDCZA5seh4ckkai0IwZCrERXMZBANO14Ibjf94LWAZDZD';
+    const accessToken =  'EAAKf7JXO2hwBAEFxkmSPtUysE0bAi1cuXM4emSWZC8R3wSo5EEaXoY6LyN2NlZBTocpZCoOFWsD0ZAAkn5GAP2bISp2z7wncVZAfwkNYdiIy20DJnEWei9E2IZBBBOsU0ngilwywuZCboJTfpzQPBRTjaF8OZBKvyZCdgl7vY8TV0qM6doZB9S9NwcAkOKa3FQkD2JWcyyb0AZAxjcseGlweiJf';
   
   
     const api_url = `https://graph.facebook.com/${user_id}?fields=mentioned_comment.comment_id(${user_comment_id}){media{id,media_url}}&access_token=${accessToken}`;
@@ -61,7 +62,7 @@ app.post('/bolobhai', async (req,res)=>{
   
     const second_api_url = `https://sasssycomment.cognitiveservices.azure.com/vision/v3.1/describe?maxCandidates=1`;
   
-    const second_request = await axios.post(second_api_url, {url: mediaUrl}, {headers: {'Ocp-Apim-Subscription-Key': '90c0876eb13c46438d69ca3e566d5b5c'}});
+    const second_request = await axios.post(second_api_url, JSON.stringify({url: mediaUrl}), {headers: {'Ocp-Apim-Subscription-Key': '90c0876eb13c46438d69ca3e566d5b5c'}});
   
   
     const image_caption =  second_request.data.description.captions[0].text;
@@ -78,12 +79,12 @@ app.post('/bolobhai', async (req,res)=>{
     const third_api_url = `https://graph.facebook.com/${user_id}/mentions`;
   
   
-    await axios.post(third_api_url, {
+    await axios.post(third_api_url, JSON.stringify({
       comment_id: user_comment_id,
       media_id: user_media_id,
       message: compiment,
       access_token: accessToken
-    });
+    }));
 
   } catch(e){
     throw e;
