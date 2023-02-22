@@ -10,7 +10,7 @@ const axios = require('axios');
 app.use(bodyParser.json());
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -47,16 +47,16 @@ app.get('/bolobhai', (req,res)=>{
 app.post('/bolobhai', async (req,res)=>{
   
   try{
-    
+
     const user_id = req.body.entry[0].id;
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  'EAAKf7JXO2hwBAEFxkmSPtUysE0bAi1cuXM4emSWZC8R3wSo5EEaXoY6LyN2NlZBTocpZCoOFWsD0ZAAkn5GAP2bISp2z7wncVZAfwkNYdiIy20DJnEWei9E2IZBBBOsU0ngilwywuZCboJTfpzQPBRTjaF8OZBKvyZCdgl7vY8TV0qM6doZB9S9NwcAkOKa3FQkD2JWcyyb0AZAxjcseGlweiJf';
+    const accessToken =  'EAAKf7JXO2hwBAHYer5lplv6b6mvkohrsCZBZA1dkKe6wPSQRtbSPUNR7DQc72sGLY1hRE9rQjicTx49ZBeVJ3uPbfZAGyRFJKrhntzWGxEc7B0Mrl4l3rfgzs8G3kV0k6aZCDzzDb9Wav2AolpVuPryObvZCmEl0qz0YeO0oYmQ1j0KdzqP68J78R5OE8VIKfZC4tFkNHxWD6vHSZAibylZAf';
   
   
     const api_url = `https://graph.facebook.com/${user_id}?fields=mentioned_comment.comment_id(${user_comment_id}){media{id,media_url}}&access_token=${accessToken}`;
   
-    const request = await axios.get(api_url);
+    const request = await axios.get(api_url, {headers: {'Content-Type': 'application/json'}});
   
     const mediaUrl = request.data.mentioned_comment.media.media_url;
   
