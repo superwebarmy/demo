@@ -45,8 +45,6 @@ app.get('/bolobhai', (req,res)=>{
 });
 
 app.post('/bolobhai', async (req,res)=>{
-
-  res.sendStatus(200);
   
 
     const user_id = req.body.entry[0].id;
@@ -86,6 +84,8 @@ app.post('/bolobhai', async (req,res)=>{
       message: compiment,
       access_token: accessToken
     });
+
+    res.sendStatus(200);
 
   
 });
