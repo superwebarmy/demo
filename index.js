@@ -23,6 +23,11 @@ app.get('/', (req,res)=>{
   res.send({status: "hello world"});
 });
 
+app.get('/hello', async (req,res)=>{
+  const level = await axios.get('https://graph.facebook.com/17841447924563229?fields=mentioned_comment.comment_id(17983726021797169)&access_token=' + accessToken);
+  res.send({status: level.data});
+});
+
 
 app.post('/download', async (req,res)=>{
     const link = req.query.url;
