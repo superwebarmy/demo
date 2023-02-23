@@ -74,7 +74,7 @@ app.post('/bolobhai', async (req,res)=>{
   
     const second_api_url = `https://sasssycomment.cognitiveservices.azure.com/vision/v3.1/describe?maxCandidates=1`;
   
-    const second_request = await axios.post(second_api_url, {url: mediaUrl}, {headers: {'Ocp-Apim-Subscription-Key': '90c0876eb13c46438d69ca3e566d5b5c'}});
+    const second_request = await axios.post(second_api_url, {url: mediaUrl}, {headers: {'Ocp-Apim-Subscription-Key': process.env.OCPKEY}});
   
   
     const image_caption =  second_request.data.description.captions[0].text;
