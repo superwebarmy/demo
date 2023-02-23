@@ -4,18 +4,19 @@ const app = express();
 const { TwitterScraper } = require("@tcortega/twitter-scraper");
 const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
+require('dotenv').config();
 
 
 
 app.use(bodyParser.json());
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: process.env.OPENACCESS_TOKEN,
 });
+
 const openai = new OpenAIApi(configuration);
 
 const PORT = process.env.PORT || 5001; 
-
 
 
 app.get('/', (req,res)=>{
@@ -46,13 +47,13 @@ app.get('/bolobhai', (req,res)=>{
 
 app.post('/bolobhai', async (req,res)=>{
   
-  try{
 
     const user_id = req.body.entry[0].id;
+    console.log(user_id);
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
     console.log(user_comment_id);
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  'EAAKf7JXO2hwBABrgG6d1fm1p5HfFUhfy9JmhkZCtp6xNcnBZAG5nJElg6RH24NsRIqZAdEjZAnJmQLIZBtoweb9KOAHgamxA4Iq5LqxuqcIvhi1x7vZCzuxzbjMN9cwnvEP7DecYzCo0QMUTYYg4XEN7gl3mvDSZABkABfAOZBOlyJ5DUCq3WmCH8d5WrkXMrZBZCNBqfCZBFjWBERqc0tHSpwk';
+    const accessToken =  process.env.ACCESS_TOKEN;
 
 
     const api_url = 'https://graph.facebook.com/' + user_id + '?fields=mentioned_comment.comment_id(' + user_comment_id + '){media{id,media_url}}&access_token=' + accessToken;
@@ -63,7 +64,7 @@ app.post('/bolobhai', async (req,res)=>{
   
     const second_api_url = `https://sasssycomment.cognitiveservices.azure.com/vision/v3.1/describe?maxCandidates=1`;
   
-    const second_request = await axios.post(second_api_url, JSON.stringify({url: mediaUrl}), {headers: {'Ocp-Apim-Subscription-Key': '90c0876eb13c46438d69ca3e566d5b5c'}});
+    const second_request = await axios.post(second_api_url, {url: mediaUrl}, {headers: {'Ocp-Apim-Subscription-Key': '90c0876eb13c46438d69ca3e566d5b5c'}});
   
   
     const image_caption =  second_request.data.description.captions[0].text;
@@ -80,18 +81,15 @@ app.post('/bolobhai', async (req,res)=>{
     const third_api_url = `https://graph.facebook.com/${user_id}/mentions`;
   
   
-    await axios.post(third_api_url, JSON.stringify({
+    await axios.post(third_api_url, {
       comment_id: user_comment_id,
       media_id: user_media_id,
       message: compiment,
       access_token: accessToken
-    }));
+    });
 
-  } catch(e){
-    throw e;
-  }
 
-  res.sendStatus(200);
+    res.sendStatus(200);
 
   
 });
