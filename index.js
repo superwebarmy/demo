@@ -11,7 +11,7 @@ require('dotenv').config();
 app.use(bodyParser.json());
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENACCESS_TOKEN,
+  apiKey: process.env.OPENACCESSTOKEN,
 });
 
 const openai = new OpenAIApi(configuration);
@@ -33,7 +33,7 @@ app.get('/hello', async (req,res)=>{
 });
 
 app.get('/world', async (req,res)=>{
-   res.send({status: process.env.ACCESS_TOKEN});
+   res.send({status: process.env.ACCESSTOKEN});
 });
 
 
@@ -62,11 +62,9 @@ app.post('/bolobhai', async (req,res)=>{
   
 
     const user_id = req.body.entry[0].id;
-    console.log(user_id);
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
-    console.log(user_comment_id);
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  process.env.ACCESS_TOKEN;
+    const accessToken =  process.env.ACCESSTOKEN;
 
 
     const api_url = 'https://graph.facebook.com/' + user_id + '?fields=mentioned_comment.comment_id(' + user_comment_id + '){media{id,media_url}}&access_token=' + accessToken;
