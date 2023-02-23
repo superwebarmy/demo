@@ -64,10 +64,9 @@ app.post('/bolobhai', async (req,res)=>{
     const user_id = req.body.entry[0].id;
     const user_comment_id = req.body.entry[0].changes[0].value.comment_id;
     const user_media_id =  req.body.entry[0].changes[0].value.media_id;
-    const accessToken =  process.env.ACCESSTOKEN;
 
 
-    const api_url = 'https://graph.facebook.com/' + user_id + '?fields=mentioned_comment.comment_id(' + user_comment_id + '){media{id,media_url}}&access_token=' + accessToken;
+    const api_url = 'https://graph.facebook.com/' + user_id + '?fields=mentioned_comment.comment_id(' + user_comment_id + '){media{id,media_url}}&access_token=' + process.env.ACCESSTOKEN;
   
     const request = await axios.get(api_url);
   
@@ -96,7 +95,7 @@ app.post('/bolobhai', async (req,res)=>{
       comment_id: user_comment_id,
       media_id: user_media_id,
       message: compiment,
-      access_token: accessToken
+      access_token: process.env.ACCESSTOKEN
     });
 
 
