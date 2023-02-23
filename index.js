@@ -32,6 +32,10 @@ app.get('/hello', async (req,res)=>{
   }
 });
 
+app.get('/world', async (req,res)=>{
+   res.send({status: process.env.ACCESS_TOKEN});
+});
+
 
 app.post('/download', async (req,res)=>{
     const link = req.query.url;
