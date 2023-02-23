@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { TwitterScraper } = require("@tcortega/twitter-scraper");
 const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
 require('dotenv').config();
@@ -19,36 +18,6 @@ const openai = new OpenAIApi(configuration);
 const PORT = process.env.PORT || 5001; 
 
 
-app.get('/', (req,res)=>{
-  res.send({status: "hello world"});
-});
-
-app.get('/hello', async (req,res)=>{
-  try{
-    const level = await axios.get('https://graph.facebook.com/17841447924563229?fields=mentioned_comment.comment_id(17983726021797169)&access_token=' + process.env.ACCESSTOKEN);
-    res.send(level.data);
-  } catch(e){
-    res.send({status: e.response});
-  }
-});
-
-app.get('/world', async (req,res)=>{
-   res.send({status: process.env.ACCESSTOKEN});
-});
-
-
-app.post('/download', async (req,res)=>{
-    const link = req.query.url;
-    
-    try{
-        const twtScraper = await TwitterScraper.create();
-        const tweetMeta = await twtScraper.getTweetMeta(link);
-        res.send(tweetMeta);
-    } catch(e){
-        res.status(500).send({error: 'error'});
-    }
-
-});
 
 app.get('/', (req,res)=>{
   res.send({status: "hello world"});
