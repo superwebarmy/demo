@@ -25,8 +25,8 @@ app.get('/', (req,res)=>{
 
 app.get('/hello', async (req,res)=>{
   try{
-    const level = await axios.get('https://graph.facebook.com/17841447924563229?fields=mentioned_comment.comment_id(17983726021797169)&access_token=' + process.env.ACCESS_TOKEN);
-    res.send({status: level.data});
+    const level = await axios.get('https://graph.facebook.com/17841447924563229?fields=mentioned_comment.comment_id(17983726021797169)&access_token=' + process.env.ACCESSTOKEN);
+    res.send({data: JSON.stringify(level.data)});
   } catch(e){
     res.send({status: e.response});
   }
